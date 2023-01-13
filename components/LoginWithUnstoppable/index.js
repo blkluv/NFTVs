@@ -80,9 +80,9 @@ export default function LoginWithUnstoppable() {
           shadow="xl"
         >
           {user.sub}
-          {getEllipsisTxt(user.wallet_address)}
-          {user.name}
-          {/* <Image alt="ud-logo" src={user.picture} px={1} /> */}
+          {/* {getEllipsisTxt(user.wallet_address)}
+          {user.name} */}
+          <Image alt="ud-logo" src={user.picture} px={1} />
         </Button>
 
         <Text>
