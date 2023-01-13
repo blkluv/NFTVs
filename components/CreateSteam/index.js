@@ -7,7 +7,6 @@ import moment from "moment";
 import * as PushAPI from "@pushprotocol/restapi";
 import * as ethers from "ethers";
 import UAuth from "@uauth/js";
-import { useRouter } from "next/navigation";
 
 import {
   Flex,
@@ -24,16 +23,13 @@ import {
   Container,
   Accordion,
   Image,
-  Badge,
 } from "@mantine/core";
-import { useFullscreen } from "@mantine/hooks";
 import HeroVideo from "../HeroVideo";
 import { IconCopy, IconCheck } from "@tabler/icons";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import HeaderTitle from "../HeaderTitle";
 import PushChat from "../PushChat";
 import { Petrona } from "@next/font/google";
-//import LoginWithUnstoppable from "../LoginWithUnstoppable";
 
 const petrona = Petrona({ weight: "variable" });
 
@@ -214,19 +210,6 @@ export default function CreateStream() {
   if (user && authorization) {
     return (
       <>
-        {/* <Text>
-         {JSON.stringify(
-           authorization.idToken.twitter.location,
-           null,
-           2
-         ).replace(/['"]+/g, "")}
-       </Text>
-       <Text>
-         {JSON.stringify(authorization.idToken.description, null, 2).replace(
-           /['"]+/g,
-           ""
-         )}
-       </Text> */}
         <Center>
           <Box my={15}>
             <Box my={5}>
@@ -554,7 +537,6 @@ export default function CreateStream() {
           radius="md"
           fontSize={{ base: "ms", md: "md" }}
           cursor="pointer"
-          textAlign="center"
           borderRadius="lg"
           minW="220"
           minH="12"

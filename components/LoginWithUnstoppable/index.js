@@ -73,7 +73,6 @@ export default function LoginWithUnstoppable() {
           bg="#0D67FE"
           fontSize={{ base: "ms", md: "md" }}
           cursor="pointer"
-          textAlign="center"
           radius="md"
           minW="220"
           minH="12"
@@ -110,7 +109,6 @@ export default function LoginWithUnstoppable() {
       radius="md"
       fontSize={{ base: "ms", md: "md" }}
       cursor="pointer"
-      textAlign="center"
       borderRadius="lg"
       minW="220"
       minH="12"

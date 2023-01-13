@@ -1,12 +1,33 @@
-import { Player, useLivepeerProvider } from "@livepeer/react";
-import { useState } from "react";
-import Script from "next/script";
+import { useState, useEffect } from "react";
+import { Player } from "@livepeer/react";
 import { Petrona } from "@next/font/google";
+import UAuth from "@uauth/js";
 
 const petrona = Petrona({ weight: "500" });
 
-import { JoinStreamButton } from "../JoinStreamButton";
-import { Box, Text, Center, TextInput, createStyles } from "@mantine/core";
+const uauth = new UAuth({
+  clientID: "8e80351e-d2ca-423f-8073-6816d95318ef",
+  redirectUri: "http://localhost:3000",
+  scope: "openid wallet email profile:optional social:optional",
+});
+
+import HeroVideo from "../HeroVideo";
+import {
+  Box,
+  Text,
+  Center,
+  TextInput,
+  createStyles,
+  Tooltip,
+  Button,
+  Image,
+  Group,
+  CopyButton,
+  ActionIcon,
+} from "@mantine/core";
+import { IconCopy, IconCheck } from "@tabler/icons";
+import { IconPlayerPlay } from "@tabler/icons";
+
 import HeaderTitle from "../HeaderTitle";
 import PushChat from "../PushChat";
 
@@ -45,90 +66,320 @@ const useStyles = createStyles((theme) => ({
 }));
 
 export default function JoinStream() {
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
+  const [user, setUser] = useState();
+  const [authorization, setAuthorization] = useState();
   const [playbackId, setPlaybackId] = useState("");
   const [renderPlayer, setRenderPlayer] = useState(false);
   const setRenderPlayerChild = (value) => {
     setRenderPlayer(value);
   };
 
+  // Unstoppable Domains login Logic
+  // Check to see if the user is inside the cache
+  useEffect(() => {
+    setLoading(true);
+    uauth
+      .user()
+      .then(setUser)
+      .catch(console.error)
+      .finally(() => setLoading(false));
+  }, []);
+
+  // Login with a popup and save the user
+  const handleLogin = () => {
+    setLoading(true);
+    uauth
+      .loginWithPopup()
+      .then(setAuthorization)
+      .then(() => uauth.user().then(setUser))
+      .catch(setError)
+      .finally(() => setLoading(false));
+  };
+
+  // Logout and delete user
+  const handleLogout = () => {
+    setLoading(true);
+    uauth
+      .logout()
+      .then(() => setUser(undefined))
+      .catch(setError)
+      .finally(() => setLoading(false));
+  };
+
+  if (loading) {
+    return <>Loading...</>;
+  }
+
+  if (error) {
+    console.error(error);
+    return <>{String(error.stack)}</>;
+  }
+
+  const getEllipsisTxt = (str, n = 4) => {
+    if (str) {
+      return `${str.slice(0, n)}...${str.slice(str.length - n)}`;
+    }
+    return "";
+  };
+
+  function Quote() {
+    return (
+      <Center>
+        <Box
+          hidden={
+            renderPlayer && (
+              <>
+                <Box my={5}>
+                  <Player
+                    aspectRatio="16to9"
+                    autoPlay
+                    showTitle
+                    title
+                    controls
+                    playbackId={playbackId}
+                  />
+                </Box>
+              </>
+            )
+          }
+        >
+          <Text fz="xl" className={petrona.className}>
+            Log in with Unstoppable Domain to enjoy the streaming.
+          </Text>
+        </Box>
+      </Center>
+    );
+  }
+
+  if (user && authorization) {
+    return (
+      <>
+        <HeaderTitle />
+        <Quote />
+        <Center>
+          <Box
+            hidden={
+              renderPlayer && (
+                <Box my={5}>
+                  <Player
+                    aspectRatio="16to9"
+                    autoPlay
+                    showTitle
+                    title
+                    controls
+                    playbackId={playbackId}
+                  />
+                </Box>
+              )
+            }
+          >
+            <Box mt={30}>
+              <Text fz="lg" fw={700} className={petrona.className}>
+                Playback ID:
+              </Text>
+              <div className="my-4">
+                <TextInput
+                  my={10}
+                  size="md"
+                  type="text"
+                  name="playbackId here"
+                  id="playbackId"
+                  className="block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                  placeholder="playbackId here"
+                  onChange={(event) => setPlaybackId(event.target.value)}
+                  autoComplete="off"
+                />
+              </div>
+            </Box>
+
+            <Tooltip
+              multiline
+              withArrow
+              width={300}
+              transition="fade"
+              label="ℹ The Playback ID that you obtained from the stream creator or Push Alert should be copied and pasted. After that, click the subscribe button to purchase a NFT via the Unlock Protocol and join the stream."
+            >
+              <Button
+                fw={700}
+                fz="xl"
+                color="black"
+                className={petrona.className}
+                rightIcon={
+                  <IconPlayerPlay size={20} color="black" stroke={5} />
+                }
+                styles={(theme) => ({
+                  root: {
+                    backgroundColor: "#00eb88",
+                    borderRadius: 10,
+                    height: 42,
+                    paddingLeft: 20,
+                    paddingRight: 20,
+
+                    "&:hover": {
+                      backgroundColor: theme.fn.darken("#00eb88", 0.05),
+                    },
+                  },
+                  leftIcon: {
+                    marginRight: 15,
+                  },
+                })}
+                onClick={() => {
+                  setRenderPlayerChild(true);
+                }}
+              >
+                <Text
+                  fw={700}
+                  fz="xl"
+                  color="black"
+                  className={petrona.className}
+                >
+                  Watch Stream
+                </Text>
+              </Button>
+            </Tooltip>
+            {/* <JoinStreamButton renderPlayer={setRenderPlayerChild} /> */}
+          </Box>
+        </Center>
+
+        <Center>
+          <div mt={50}>
+            {renderPlayer && (
+              <>
+                <Box my={50}>
+                  <Player
+                    aspectRatio="16to9"
+                    autoPlay
+                    showTitle
+                    title
+                    controls
+                    playbackId={playbackId}
+                  />
+                </Box>
+                <Group>
+                  <Box>
+                    <Tooltip
+                      transition="fade"
+                      transitionDuration={300}
+                      label="Logout"
+                      withArrow
+                    >
+                      <Button
+                        fw={500}
+                        onClick={handleLogout}
+                        shadow="xl"
+                        styles={(theme) => ({
+                          root: {
+                            backgroundColor: "#0d67fe",
+                            borderRadius: 10,
+                            height: 40,
+                            paddingLeft: 20,
+                            paddingRight: 20,
+
+                            "&:hover": {
+                              backgroundColor: theme.fn.darken("#0546B7", 0.05),
+                            },
+                          },
+                          leftIcon: {
+                            marginRight: 15,
+                          },
+                        })}
+                      >
+                        <Image alt="ud-logo" src="ud-logo.svg" px={1} />
+                        <Text fw={500} className={petrona.className}>
+                          {user.sub}
+                        </Text>
+                      </Button>
+                    </Tooltip>
+
+                    <Group>
+                      <Button variant="default" radius="md">
+                        <Group>
+                          <Text>{getEllipsisTxt(user.wallet_address)}</Text>
+                          <CopyButton
+                            value={user.wallet_address}
+                            timeout={2000}
+                          >
+                            {({ copied, copy }) => (
+                              <Tooltip
+                                label={copied ? "Copied" : "Copy"}
+                                withArrow
+                                position="right"
+                              >
+                                <ActionIcon
+                                  color={copied ? "teal" : "gray"}
+                                  onClick={copy}
+                                >
+                                  {copied ? (
+                                    <IconCheck size={16} />
+                                  ) : (
+                                    <IconCopy size={16} />
+                                  )}
+                                </ActionIcon>
+                              </Tooltip>
+                            )}
+                          </CopyButton>
+                        </Group>
+                      </Button>
+
+                      <Text fw={500} className={petrona.className}>
+                        {user.name}
+                      </Text>
+                    </Group>
+                  </Box>
+                  <Box>
+                    <PushChat />
+                  </Box>
+                </Group>
+              </>
+            )}
+          </div>
+        </Center>
+      </>
+    );
+  }
+
   return (
     <>
       <HeaderTitle />
-      <Center>
-        <div>
-          <Box
-            mt={50}
-            hidden={
-              renderPlayer && (
-                <>
-                  <Player playbackId={playbackId} />
-                </>
-              )
-            }
-          >
-            <Text fz="lg" fw={700} className={petrona.className}>
-              Playback ID:
-            </Text>
-            <div className="my-4">
-              <TextInput
-                my={10}
-                size="md"
-                type="text"
-                name="playbackId here"
-                id="playbackId"
-                className="block rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                placeholder="playbackId here"
-                onChange={(event) => setPlaybackId(event.target.value)}
-                autoComplete="off"
-              />
-            </div>
-          </Box>
-          <Script id="Subscribe">
-            {`(function(d, s) {
-                var js = d.createElement(s),
-                  sc = d.getElementsByTagName(s)[0];
-                js.src="https://paywall.unlock-protocol.com/static/unlock.latest.min.js";
-                sc.parentNode.insertBefore(js, sc); }(document, "script"));`}
-          </Script>
-          <Script id="unlockProtocalConfig">
-            {`
-            var unlockProtocolConfig = {            
-              "network": 5,
-              "locks": {
-                "0x92ac11a7c4e52edc5980c8f2ee58e931c85ca333": {
-                  "name": "BubbleStreamr"
-                },
-              },
-              "icon": "https://unlock-protocol.com/static/images/svg/unlock-word-mark.svg",
-              "callToAction": {
-                "default": "Please unlock this demo!"
-              }
-            }
-            `}
-          </Script>
-          <Box
-            my={10}
-            hidden={
-              renderPlayer && (
-                <>
-                  <Player controls playbackId={playbackId} />
-                </>
-              )
-            }
-          >
-            <JoinStreamButton renderPlayer={setRenderPlayerChild} />
-          </Box>
-          {renderPlayer && (
+      <Quote />
+      <Center mt={5}>
+        <Button
+          ml={2}
+          bg="#0D67FE"
+          radius="md"
+          fontSize={{ base: "ms", md: "md" }}
+          cursor="pointer"
+          borderRadius="lg"
+          minW="220"
+          minH="12"
+          onClick={handleLogin}
+          shadow="xl"
+        >
+          <Image alt="ud-logo" src="/ud-logo.svg" px={1} />
+          Login With Unstoppable
+        </Button>
+      </Center>
+      <Center
+        hidden={
+          renderPlayer && (
             <>
               <Box my={5}>
-                <Player showTitle title controls playbackId={playbackId} />
-              </Box>
-              <Box>
-                <PushChat />
+                <Player
+                  aspectRatio="16to9"
+                  autoPlay
+                  showTitle
+                  title
+                  controls
+                  playbackId={playbackId}
+                />
               </Box>
             </>
-          )}
-        </div>
+          )
+        }
+      >
+        <HeroVideo />
       </Center>
     </>
   );

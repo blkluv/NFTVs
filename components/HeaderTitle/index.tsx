@@ -57,7 +57,7 @@ export default function HeaderTitle() {
               inherit
               className={petrona.className}
               sx={{
-                color: "#00eb88",
+                color: "#ffc1cc",
               }}
             >
               {provider.getConfig().name}

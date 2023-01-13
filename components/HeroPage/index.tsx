@@ -123,12 +123,12 @@ export default function HeroPage() {
               inherit
               className={fredokaOne.className}
               styles={{
-                color: "#00eb88",
+                color: "#ffc1cc",
               }}
             >
               <ReactRotatingText
                 className={classes.ratateText}
-                color="#00eb88"
+                color="#ffc1cc"
                 items={[
                   "Film/TV.",
                   "Publishers.",
@@ -178,14 +178,14 @@ export default function HeroPage() {
               rightIcon={<IconPlayerPlay size={20} color="black" stroke={5} />}
               styles={(theme) => ({
                 root: {
-                  backgroundColor: "#00eb88",
+                  backgroundColor: "#ffc1cc",
                   borderRadius: 10,
                   height: 42,
                   paddingLeft: 20,
                   paddingRight: 20,
 
                   "&:hover": {
-                    backgroundColor: theme.fn.darken("#00eb88", 0.05),
+                    backgroundColor: theme.fn.darken("ff48a5", 0.05),
                   },
                 },
                 leftIcon: {
