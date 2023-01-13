@@ -34,7 +34,7 @@ import { Petrona } from "@next/font/google";
 const petrona = Petrona({ weight: "variable" });
 
 const uauth = new UAuth({
-  clientID: "8e80351e-d2ca-423f-8073-6816d95318ef",
+  clientID: process.env.NEXT_PUBLIC_UNSTOPPABLEDOMAIN_CLIENT_ID,
   redirectUri: "http://localhost:3000",
   scope: "openid wallet email profile:optional social:optional",
 });
