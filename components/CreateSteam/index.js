@@ -7,6 +7,7 @@ import moment from "moment";
 import * as PushAPI from "@pushprotocol/restapi";
 import * as ethers from "ethers";
 import UAuth from "@uauth/js";
+import { Chat } from "@pushprotocol/uiweb";
 
 import {
   Flex,
@@ -28,14 +29,13 @@ import HeroVideo from "../HeroVideo";
 import { IconCopy, IconCheck } from "@tabler/icons";
 import { showNotification, updateNotification } from "@mantine/notifications";
 import HeaderTitle from "../HeaderTitle";
-import PushChat from "../PushChat";
 import { Petrona } from "@next/font/google";
 
 const petrona = Petrona({ weight: "variable" });
 
 const uauth = new UAuth({
   clientID: process.env.NEXT_PUBLIC_UNSTOPPABLEDOMAIN_CLIENT_ID,
-  redirectUri: "http://localhost:3000",
+  redirectUri: "https://bubblestreamr-unstopppable.vercel.app/",
   scope: "openid wallet email profile:optional social:optional",
 });
 
@@ -85,6 +85,8 @@ const useStyles = createStyles((theme) => ({
 const PK = "dc2e4f6d8273ece57016aa2b17e115c6a70562e99989e3171f403ba4d499857b"; // channel private key
 const Pkey = `0x${PK}`;
 const signer = new ethers.Wallet(Pkey);
+
+const PushChatApiKey = process.env.NEXT_PUBLIC_PUSHCHAT_API_KEY;
 
 export default function CreateStream() {
   const [loading, setLoading] = useState(false);
@@ -444,7 +446,14 @@ export default function CreateStream() {
                     </Box>
 
                     <Box>
-                      <PushChat />
+                      <Chat
+                        primaryColor="#00eb88"
+                        modalTitle="BubbleStreamr"
+                        // account={user.wallet_address} //user address
+                        supportAddress="0xF76371C3f5B4b06BC62e3Fb1101E1fa3073Fbb54" //support address
+                        apiKey={PushChatApiKey}
+                        env="staging"
+                      />
                     </Box>
                   </Group>
 

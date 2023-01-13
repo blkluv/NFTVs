@@ -7,7 +7,7 @@ const petrona = Petrona({ weight: "500" });
 
 const uauth = new UAuth({
   clientID: process.env.NEXT_PUBLIC_UNSTOPPABLEDOMAIN_CLIENT_ID,
-  redirectUri: "http://localhost:3000",
+  redirectUri: "https://bubblestreamr-unstopppable.vercel.app/",
   scope: "openid wallet email profile:optional social:optional",
 });
 
@@ -27,9 +27,10 @@ import {
 } from "@mantine/core";
 import { IconCopy, IconCheck } from "@tabler/icons";
 import { IconPlayerPlay } from "@tabler/icons";
+import { Chat } from "@pushprotocol/uiweb";
 
 import HeaderTitle from "../HeaderTitle";
-import PushChat from "../PushChat";
+const PushChatApiKey = process.env.NEXT_PUBLIC_PUSHCHAT_API_KEY;
 
 const useStyles = createStyles((theme) => ({
   title: {
@@ -329,8 +330,16 @@ export default function JoinStream() {
                       </Text>
                     </Group>
                   </Box>
+
                   <Box>
-                    <PushChat />
+                    <Chat
+                      primaryColor="#00eb88"
+                      modalTitle="BubbleStreamr"
+                      account={user.wallet_address} //user address
+                      supportAddress="0xF76371C3f5B4b06BC62e3Fb1101E1fa3073Fbb54" //support address
+                      apiKey={PushChatApiKey}
+                      env="staging"
+                    />
                   </Box>
                 </Group>
               </>
