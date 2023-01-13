@@ -162,9 +162,11 @@ export default function HeroPage() {
                 },
               })}
             >
-              Engaging with your audience in real time — we’re talking live
-              streams. we offer you a platform to host and stream your content
-              and everything you need to monetization your niche.
+              Engaging with your audience in real time — built on Livepeer is a
+              decentralized video infrastructure network. With Unstoppable
+              Domain, we provide a platform for hosting and streaming your
+              content, empowering creators and users to take control of their
+              own identities in a fully decentralized manner.
             </Text>
           </Container>
         </Center>
