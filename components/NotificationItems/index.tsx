@@ -17,7 +17,7 @@ export default function NotificationItems({ notifications, OptInChannel }) {
           >
             <Indicator offset={7} color="green.8" label="New" size={16}>
               <BellIcon
-                color="#FF0057"
+                color="#ff63ca"
                 aria-label="BellIcon database"
                 boxSize="40"
                 mx="5"

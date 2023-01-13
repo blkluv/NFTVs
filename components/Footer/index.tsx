@@ -84,7 +84,7 @@ export default function Footer() {
         <Group spacing="xs" position="right" noWrap>
           <ActionIcon
             mx={13}
-            color="#8892B0"
+            color="#ffcae5"
             component="a"
             href="https://github.com/SabeloMkhwanzi"
             target="_blank"
@@ -93,6 +93,7 @@ export default function Footer() {
             <IconBrandGithub color="#00eb88" size={30} />
           </ActionIcon>
           <ActionIcon
+            color="#ffcae5"
             mx={13}
             component="a"
             href="https://twitter.com/SabeloMkhwanaz"
@@ -101,6 +102,7 @@ export default function Footer() {
             <IconBrandTwitter color="#00eb88" size={30} />
           </ActionIcon>
           <ActionIcon
+            color="#ffcae5"
             mx={13}
             component="a"
             href="https://www.linkedin.com/in/sabelo-mkhwanazi-54ba431b1/"

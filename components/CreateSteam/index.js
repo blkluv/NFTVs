@@ -210,6 +210,9 @@ export default function CreateStream() {
   if (user && authorization) {
     return (
       <>
+        <HeaderTitle />
+        <Quote />
+
         <Center>
           <Box my={15}>
             <Box my={5}>
@@ -239,14 +242,14 @@ export default function CreateStream() {
                   }
                   styles={(theme) => ({
                     root: {
-                      backgroundColor: "#00eb88",
+                      backgroundColor: "#ffc1cc",
                       borderRadius: 10,
                       height: 42,
                       paddingLeft: 20,
                       paddingRight: 20,
 
                       "&:hover": {
-                        backgroundColor: theme.fn.darken("#00eb88", 0.05),
+                        backgroundColor: theme.fn.darken("#ff63ca", 0.05),
                       },
                     },
                     leftIcon: {
@@ -312,14 +315,14 @@ export default function CreateStream() {
                         className={petrona.className}
                         styles={(theme) => ({
                           root: {
-                            backgroundColor: "#FF0057",
+                            backgroundColor: "#ff63ca",
                             borderRadius: 10,
                             height: 40,
                             paddingLeft: 20,
                             paddingRight: 20,
 
                             "&:hover": {
-                              backgroundColor: theme.fn.darken("#00eb88", 0.05),
+                              backgroundColor: theme.fn.darken("#ff63ca", 0.05),
                             },
                           },
                           leftIcon: {
@@ -533,7 +536,14 @@ export default function CreateStream() {
       <Center mt={5}>
         <Button
           ml={2}
-          bg="#0D67FE"
+          styles={(theme) => ({
+            root: {
+              backgroundColor: "#0D67FE",
+              "&:hover": {
+                backgroundColor: theme.fn.darken("#0546B7", 0.05),
+              },
+            },
+          })}
           radius="md"
           fontSize={{ base: "ms", md: "md" }}
           cursor="pointer"

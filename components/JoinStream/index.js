@@ -211,14 +211,14 @@ export default function JoinStream() {
                 }
                 styles={(theme) => ({
                   root: {
-                    backgroundColor: "#00eb88",
+                    backgroundColor: "#ff63ca",
                     borderRadius: 10,
                     height: 42,
                     paddingLeft: 20,
                     paddingRight: 20,
 
                     "&:hover": {
-                      backgroundColor: theme.fn.darken("#00eb88", 0.05),
+                      backgroundColor: theme.fn.darken("#ff63ca", 0.05),
                     },
                   },
                   leftIcon: {
@@ -247,7 +247,7 @@ export default function JoinStream() {
           <div mt={50}>
             {renderPlayer && (
               <>
-                <Box my={50}>
+                <Box my={20}>
                   <Player
                     aspectRatio="16to9"
                     autoPlay
@@ -257,6 +257,7 @@ export default function JoinStream() {
                     playbackId={playbackId}
                   />
                 </Box>
+
                 <Group>
                   <Box>
                     <Tooltip
@@ -271,7 +272,7 @@ export default function JoinStream() {
                         shadow="xl"
                         styles={(theme) => ({
                           root: {
-                            backgroundColor: "#0d67fe",
+                            backgroundColor: "#0D67FE",
                             borderRadius: 10,
                             height: 40,
                             paddingLeft: 20,
@@ -293,7 +294,7 @@ export default function JoinStream() {
                       </Button>
                     </Tooltip>
 
-                    <Group>
+                    <Group my={10}>
                       <Button variant="default" radius="md">
                         <Group>
                           <Text>{getEllipsisTxt(user.wallet_address)}</Text>
@@ -346,8 +347,15 @@ export default function JoinStream() {
       <Quote />
       <Center mt={5}>
         <Button
+          styles={(theme) => ({
+            root: {
+              backgroundColor: "#0D67FE",
+              "&:hover": {
+                backgroundColor: theme.fn.darken("#0546B7", 0.05),
+              },
+            },
+          })}
           ml={2}
-          bg="#0D67FE"
           radius="md"
           fontSize={{ base: "ms", md: "md" }}
           cursor="pointer"

@@ -128,7 +128,7 @@ export default function HeroPage() {
             >
               <ReactRotatingText
                 className={classes.ratateText}
-                color="#ffc1cc"
+                color="#ff63ca"
                 items={[
                   "Film/TV.",
                   "Publishers.",
@@ -178,14 +178,14 @@ export default function HeroPage() {
               rightIcon={<IconPlayerPlay size={20} color="black" stroke={5} />}
               styles={(theme) => ({
                 root: {
-                  backgroundColor: "#ffc1cc",
+                  backgroundColor: "#ff63ca",
                   borderRadius: 10,
                   height: 42,
                   paddingLeft: 20,
                   paddingRight: 20,
 
                   "&:hover": {
-                    backgroundColor: theme.fn.darken("ff48a5", 0.05),
+                    backgroundColor: theme.fn.darken("#ff63ca", 0.05),
                   },
                 },
                 leftIcon: {
