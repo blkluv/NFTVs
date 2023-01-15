@@ -35,7 +35,7 @@ const petrona = Petrona({ weight: "variable" });
 
 const uauth = new UAuth({
   clientID: process.env.NEXT_PUBLIC_UNSTOPPABLEDOMAIN_CLIENT_ID,
-  redirectUri: "https://bubblestreamr-unstopppable.vercel.app/",
+  redirectUri: "http://localhost:3000",
   scope: "openid wallet email profile:optional social:optional",
 });
 
@@ -82,7 +82,7 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
-const PK = "dc2e4f6d8273ece57016aa2b17e115c6a70562e99989e3171f403ba4d499857b"; // channel private key
+const PK = process.env.NEXT_PUBLIC_APP_CHANNEL_PK; // channel private key
 const Pkey = `0x${PK}`;
 const signer = new ethers.Wallet(Pkey);
 

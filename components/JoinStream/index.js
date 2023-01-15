@@ -7,7 +7,7 @@ const petrona = Petrona({ weight: "500" });
 
 const uauth = new UAuth({
   clientID: process.env.NEXT_PUBLIC_UNSTOPPABLEDOMAIN_CLIENT_ID,
-  redirectUri: "https://bubblestreamr-unstopppable.vercel.app/",
+  redirectUri: "http://localhost:3000",
   scope: "openid wallet email profile:optional social:optional",
 });
 
