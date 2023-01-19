@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import UAuth from "@uauth/js";
-import { Button, Image, Text } from "@mantine/core";
+import { Button, Image, Text, Loader ,  Notification, Center} from "@mantine/core";
 import React from "react";
+import { IconX } from "@tabler/icons";
 
 const uauth = new UAuth({
   clientID: process.env.NEXT_PUBLIC_UNSTOPPABLEDOMAIN_CLIENT_ID,
@@ -47,13 +48,23 @@ export default function LoginWithUnstoppable() {
   };
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loader color="grape" />;
   }
 
-  if (error) {
-    console.error(error);
-    return <>{String(error.stack)}</>;
-  }
+   if (error) {
+     console.error(error);
+     return (
+       <Center
+         style={{
+           position: "fixed",
+         }}
+       >
+         <Notification icon={<IconX size={18} />} color="red">
+           Error! Failed to Connect
+         </Notification>
+       </Center>
+     );
+   }
 
   const getEllipsisTxt = (str, n = 4) => {
     if (str) {

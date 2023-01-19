@@ -24,7 +24,10 @@ import {
   Group,
   CopyButton,
   ActionIcon,
+  Loader,
+  Notification,
 } from "@mantine/core";
+import { IconX } from "@tabler/icons";
 import { IconCopy, IconCheck } from "@tabler/icons";
 import { IconPlayerPlay } from "@tabler/icons";
 import { Chat } from "@pushprotocol/uiweb";
@@ -110,13 +113,23 @@ export default function JoinStream() {
   };
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loader color="grape" />;
   }
 
-  if (error) {
-    console.error(error);
-    return <>{String(error.stack)}</>;
-  }
+   if (error) {
+     console.error(error);
+     return (
+       <Center
+         style={{
+           position: "fixed",
+         }}
+       >
+         <Notification icon={<IconX size={18} />} color="red">
+           Error! Failed to Connect
+         </Notification>
+       </Center>
+     );
+   }
 
   const getEllipsisTxt = (str, n = 4) => {
     if (str) {

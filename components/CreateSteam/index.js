@@ -8,6 +8,7 @@ import * as PushAPI from "@pushprotocol/restapi";
 import * as ethers from "ethers";
 import UAuth from "@uauth/js";
 import { Chat } from "@pushprotocol/uiweb";
+import { IconX } from "@tabler/icons";
 
 import {
   Flex,
@@ -24,6 +25,8 @@ import {
   Container,
   Accordion,
   Image,
+  Loader,
+  Notification,
 } from "@mantine/core";
 import HeroVideo from "../HeroVideo";
 import { IconCopy, IconCheck } from "@tabler/icons";
@@ -168,12 +171,22 @@ export default function CreateStream() {
   };
 
   if (loading) {
-    return <>Loading...</>;
+    return <Loader color="grape" />;
   }
 
   if (error) {
     console.error(error);
-    return <>{String(error.stack)}</>;
+    return (
+      <Center
+        style={{
+          position: "fixed",
+        }}
+      >
+        <Notification icon={<IconX size={18} />} color="red">
+          Error! Failed to Connect
+        </Notification>
+      </Center>
+    );
   }
 
   const getEllipsisTxt = (str, n = 4) => {
