@@ -106,26 +106,6 @@ export default function CreateStream() {
 
   const isLoading = useMemo(() => status === "loading", [status]);
 
-  //   const useLocalStorage = (storageKey, fallbackState) => {
-  //   const [value, setValue] = useState(
-  //     JSON.parse(localStorage.getItem(storageKey)) ?? fallbackState
-  //   );
-
-  //   useEffect(() => {
-  //     localStorage.setItem(storageKey, JSON.stringify(value));
-  //   }, [value, storageKey]);
-
-  //   return [value, setValue];
-  // };
-
-  // const [user, setUser] = useLocalStorage(‘user’, '');
-
-  // Then you can set the logged in user using:
-
-  // setUser(<variable_here>)
-
-  // setUser(‘’)
-
   // Push Notification function
   const sendNotification = async () => {
     try {

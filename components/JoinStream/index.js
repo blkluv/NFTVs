@@ -116,20 +116,20 @@ export default function JoinStream() {
     return <Loader color="grape" />;
   }
 
-   if (error) {
-     console.error(error);
-     return (
-       <Center
-         style={{
-           position: "fixed",
-         }}
-       >
-         <Notification icon={<IconX size={18} />} color="red">
-           Error! Failed to Connect
-         </Notification>
-       </Center>
-     );
-   }
+  if (error) {
+    console.error(error);
+    return (
+      <Center
+        style={{
+          position: "fixed",
+        }}
+      >
+        <Notification icon={<IconX size={18} />} color="red">
+          Error! Failed to Connect
+        </Notification>
+      </Center>
+    );
+  }
 
   const getEllipsisTxt = (str, n = 4) => {
     if (str) {
