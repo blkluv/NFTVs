@@ -69,47 +69,61 @@ const useStyles = createStyles((theme) => ({
   },
 }));
 
+const useLocalStorage = (storageKey, fallbackState) => {
+  const [value, setValue] = useState(fallbackState);
+  useEffect(() => {
+    const stored = localStorage.getItem(storageKey);
+    setValue(stored ? JSON.parse(stored) : fallbackState);
+  }, [fallbackState, storageKey]);
+
+  useEffect(() => {
+    localStorage.setItem(storageKey, JSON.stringify(value));
+  }, [value, storageKey]);
+
+  return [value, setValue];
+};
+
 export default function JoinStream() {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState();
-  const [user, setUser] = useState();
-  const [authorization, setAuthorization] = useState();
+  const [error, setError] = useState("");
+  const [user, setUser] = useLocalStorage("user", "");
+  const [authorization, setAuthorization] = useLocalStorage(
+    "authorization",
+    ""
+  );
   const [playbackId, setPlaybackId] = useState("");
   const [renderPlayer, setRenderPlayer] = useState(false);
   const setRenderPlayerChild = (value) => {
     setRenderPlayer(value);
   };
 
-  // Unstoppable Domains login Logic
-  // Check to see if the user is inside the cache
-  useEffect(() => {
-    setLoading(true);
-    uauth
-      .user()
-      .then(setUser)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
-
   // Login with a popup and save the user
-  const handleLogin = () => {
+  const handleLogin = async () => {
     setLoading(true);
-    uauth
-      .loginWithPopup()
-      .then(setAuthorization)
-      .then(() => uauth.user().then(setUser))
-      .catch(setError)
-      .finally(() => setLoading(false));
+    try {
+      const authorization = await uauth.loginWithPopup();
+      const user = await uauth.user();
+      setAuthorization(authorization);
+      setUser(user);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   // Logout and delete user
-  const handleLogout = () => {
+  const handleLogout = async () => {
     setLoading(true);
-    uauth
-      .logout()
-      .then(() => setUser(undefined))
-      .catch(setError)
-      .finally(() => setLoading(false));
+    try {
+      await uauth.logout();
+      setAuthorization("");
+      setUser("");
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   if (loading) {
